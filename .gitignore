@@ -30,4 +30,5 @@ Tools/
 UserSettings/
 Assets/**
 !Assets/
+!Assets/MainProgram/
 !Assets/MainProgram/*.cs
