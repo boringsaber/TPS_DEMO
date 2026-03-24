@@ -30,8 +30,8 @@ Tools/
 UserSettings/
 
 Assets/*
+Assets/MainProgram/*
 
 
-
-!Assets/MainProgram/
+!Assets/MainProgram/Scripts/
 
