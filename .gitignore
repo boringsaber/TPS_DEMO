@@ -29,13 +29,9 @@ ExportedObj/
 Tools/
 UserSettings/
 
-Assets/**
+Assets/*
 
-!Assets/
 
 
 !Assets/MainProgram/
 
-
-!Assets/MainProgram/*.cs
-!Assets/MainProgram/**/*.cs
