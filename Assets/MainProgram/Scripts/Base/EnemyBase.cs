@@ -218,7 +218,6 @@ public abstract class EnemyBase : MonoBehaviour,IStateMachineOwner
         currentHealth -= bullet.damage * damageMultiplier;
         if (currentHealth > 0) //受伤
         {
-
             healthBarShow_timer = 0;
             healthBar.GetComponent<EnemyHealthBarUI>().UpdateHealthBar(currentHealth / health);
         }
@@ -235,16 +234,33 @@ public abstract class EnemyBase : MonoBehaviour,IStateMachineOwner
         }
         #endregion
     }
-        public void Clear()
-        {
+    public void Clear()
+    {
             stateMachine.StopState();
             Destroy(gameObject);
-        }
+    }
+    /// <summary>
+    /// 掉落奖励
+    /// </summary>
     private void DropBonus()
     {
         int rand = Random.Range(0, dropThings.Count);
-        Transform trans = transform;
-        GameObject.Instantiate(dropThings[rand], transform);
+        //GameObject.Instantiate(dropThings[rand], transform.position, Quaternion.identity);
+        if (rand == 0)
+        {
+            ResManager.Instance.LoadABResAsync<GameObject>("potion", "Bottle_Health", (ob) =>
+            {
+                ob.transform.position = gameObject.transform.position;
+            });
+        }
+        else if (rand == 1)
+        {
+            ResManager.Instance.LoadABResAsync<GameObject>("potion", "Bottle_Endurance", (ob) =>
+            {
+                ob.transform.position = gameObject.transform.position;
+            });
+        }
+        
     }
 
     }

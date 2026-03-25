@@ -32,7 +32,7 @@ public class PlayerAimingState : PlayerStateBase
     {
         base.Update();
 
-        if (IsBeControl())
+        if (IsBeControl()/*&&GameManager.Instance.IsBackPackOpen==false*/)
         {
             playerModel.transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
             UpdateAimingTarget();

@@ -5,18 +5,19 @@ using UnityEngine;
 public class ScenesItem : MonoBehaviour
 {
     public Item item;
-    public MainItem mainitem;
+   
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "MainCharacter")
+        if (other.gameObject.tag == "Player")
         {
-            if (!mainitem.itemList.Contains(item))
+            if (!BagDisplayUI.Instance.mainItem.itemList.Contains(item) && !BagDisplayUI.ItemDic.ContainsKey(item.name))
             {
-                mainitem.itemList.Add(item);
+                BagDisplayUI.Instance.mainItem.itemList.Add(item);
             }
-        }
-        item.itemNum++;
+        BagDisplayUI.ItemDic[item.name].itemNum++;
         BagDisplayUI.updateItemToUI();
         Destroy(this.gameObject);
+        }
+       
     }
 }

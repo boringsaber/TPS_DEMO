@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void Fire(Vector3 targetPos)
     {
+        
         if (Time.time - lastFireTime < bulletInterval)
             return;
         lastFireTime = Time.time;

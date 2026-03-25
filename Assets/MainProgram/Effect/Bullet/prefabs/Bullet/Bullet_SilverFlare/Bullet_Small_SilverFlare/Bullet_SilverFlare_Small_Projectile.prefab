@@ -5029,7 +5029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55be25649e182b4d9511c08ced1b411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 50
   rb: {fileID: 0}
   flypower: 30
   lifetime: 10

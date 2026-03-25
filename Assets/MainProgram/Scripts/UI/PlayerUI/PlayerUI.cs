@@ -13,8 +13,11 @@ public class PlayerUI : MonoBehaviour
     private void Start()
     {
         HealthBarEnable();
-        CurrentHealth = 50f;
+        CurrentHealth = 100f;
         HealthBar.fillAmount = CurrentHealth/MaxHealth;
+        EventCenter.Instance.EventTrigger("玩家当前血量更新", CurrentHealth);
+        
+        EventCenter.Instance.EventTrigger("玩家血量达到上限",false);
     }
     /// <summary>
     /// 启用玩家血条
@@ -38,11 +41,25 @@ public class PlayerUI : MonoBehaviour
     {
        
          CurrentHealth += (float)info;
+        
         HealthBar.fillAmount = CurrentHealth / MaxHealth; 
         print(CurrentHealth);
-        if(CurrentHealth<=0)
+        if (CurrentHealth <= 0)
         {
-            EventCenter.Instance.EventTrigger("玩家死亡", null);
+            EventCenter.Instance.EventTrigger("玩家死亡", true);
+            CurrentHealth = 0f;
+
+        }
+        else if (CurrentHealth >= 100)
+        {
+            EventCenter.Instance.EventTrigger("玩家血量达到上限", true);
+            CurrentHealth = 100f;
+            EventCenter.Instance.EventTrigger("玩家存活",false);
+        }
+        else if (CurrentHealth < 100&&CurrentHealth>0)
+        {
+            EventCenter.Instance.EventTrigger("玩家血量脱离上限", false);
+            EventCenter.Instance.EventTrigger("玩家存活", false);
         }
     }
 }

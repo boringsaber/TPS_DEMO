@@ -11,13 +11,15 @@ public class PlayerController : SingleMonoBase<PlayerController>
     public PlayerModel currentPlayerModel;
     private Transform cameraTransform;
     public GameObject MyBag;
-    private bool isOpen = true;
-    
+    public GameObject MyMenu;
+    private bool isBackOpen = true;
+    private bool isMenuOpen = true;
     [Tooltip("转向速度")]
     public float rotationSpeed=300;
 
     #region 玩家输入相关
-    private MyInputSystem input;
+    [HideInInspector]
+    public static MyInputSystem input;
     [HideInInspector]
     public Vector2 moveInput;
     [HideInInspector]
@@ -30,6 +32,7 @@ public class PlayerController : SingleMonoBase<PlayerController>
     public bool isFire;//开火输入
     [HideInInspector]
     public bool isBackPackOpen;//背包打开输入
+   
     [Tooltip("正常视角相机")]
     public CinemachineFreeLook freeLookCamera;
     [Tooltip("瞄准视角相机")]
@@ -80,6 +83,7 @@ public class PlayerController : SingleMonoBase<PlayerController>
         worldMovement = cameraForwardProjection * moveInput.y + cameraTransform.right * moveInput.x;
         localMovement = currentPlayerModel.transform.InverseTransformVector(worldMovement);
         OpenOrCloseBackpack();
+        OpenOrCloseMenu();
     }
 
     private void OnEnable()
@@ -128,17 +132,41 @@ public class PlayerController : SingleMonoBase<PlayerController>
     /// </summary>
     private void OpenOrCloseBackpack()
     {
-        if (Input.GetKeyDown(KeyCode.B) && isOpen)
+        if (Input.GetKeyDown(KeyCode.B) && isBackOpen)
         {
-            isOpen = false;
+            isBackOpen = false;
             MyBag.SetActive(true);
+            input.Disable();
+            Cursor.lockState = CursorLockMode.None;
 
         }
-        else if (Input.GetKeyDown(KeyCode.B) && isOpen == false)
+        else if (Input.GetKeyDown(KeyCode.B) && isBackOpen == false)
         {
-            isOpen = true;
+            isBackOpen = true;
             MyBag.SetActive(false);
+            input.Enable();
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+    /// <summary>
+    /// 打开或者关闭菜单
+    /// </summary>
+    private void OpenOrCloseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && isMenuOpen)
+        {
+            isMenuOpen = false;
+            MyMenu.SetActive(true);
+            input.Disable();
+            Cursor.lockState = CursorLockMode.None;
 
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && isMenuOpen == false)
+        {
+            isMenuOpen = true;
+            MyMenu.SetActive(false);
+            input.Enable();
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

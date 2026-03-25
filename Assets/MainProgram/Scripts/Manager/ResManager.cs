@@ -5,9 +5,10 @@ using UnityEngine.Events;
 
 public class ResManager : SingleMonoBase<ResManager>
 {
-    private AssetBundle mainAB = null;
-    private AssetBundleManifest manifest = null;
-    private Dictionary<string, AssetBundle> abDic = new Dictionary<string, AssetBundle>();
+    private static AssetBundle mainAB = null;
+    private static AssetBundleManifest manifest = null;
+    private static Dictionary<string, AssetBundle> abDic = new Dictionary<string, AssetBundle>();
+   
     private string PathUrl
     {
         get
@@ -90,7 +91,7 @@ return "Android";
         }
         //获取依赖包相关信息
         AssetBundle ab = null;
-        string[] strs = manifest.GetAllDependencies(abName);
+         string[] strs = manifest.GetAllDependencies(abName);
         for (int i = 0; i < strs.Length; i++)
         {
             //判断包是否加载过
@@ -102,7 +103,7 @@ return "Android";
         }
         //加载资源来源包
         //如果没有加载过 再加载
-        if (!abDic.ContainsKey(abName))
+        if (!abDic.ContainsKey(abName) || abDic[abName]==null)
         {
             ab = AssetBundle.LoadFromFile(PathUrl + abName);
             abDic.Add(abName, ab);
@@ -120,7 +121,11 @@ return "Android";
         AssetBundleRequest abr = abDic[abName].LoadAssetAsync<T>(resName);
         yield return abr;
         if (abr.asset is GameObject)
-            callBack(Instantiate(abr.asset) as T);
+        {
+            callBack( Instantiate(abr.asset) as T);
+            
+           
+        }
         else
             callBack(abr.asset as T);
     }

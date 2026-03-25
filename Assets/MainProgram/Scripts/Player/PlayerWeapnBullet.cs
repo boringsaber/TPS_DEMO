@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWeapnBullet : MonoBehaviour
 {
     [Tooltip("…À∫¶")]
-    public int damage = 10;
+    public int damage = 100;
     [HideInInspector]
     public Rigidbody rb;
     [Tooltip("Õ∆¡¶")]
