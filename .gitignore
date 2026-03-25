@@ -34,6 +34,3 @@ Assets/MainProgram/*
 
 
 !Assets/MainProgram/Scripts/
-!Assets/MainProgram/Effect/Bullet/prefabs/Bullet/Bullet_SilverFlare/Bullet_Small_SilverFlare/Bullet_SilverFlare_Small_Projectile.prefab
-!Assets/MainProgram/Scenes/Game.unity
-!Assets/MainProgram/Scenes/StartUI.unity
