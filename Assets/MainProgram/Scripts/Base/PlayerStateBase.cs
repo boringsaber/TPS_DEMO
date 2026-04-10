@@ -28,6 +28,8 @@ public class PlayerStateBase : StateBase
 
     public override void Update()
     {
+        if (playerModel.cc == null)
+            return;
         #region ÷ÿ¡¶º∆À„
         if (!playerModel.cc.isGrounded)
         {

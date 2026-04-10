@@ -36,6 +36,7 @@ public class BagDisplayUI : SingleMonoBase<BagDisplayUI>
         EventCenter.Instance.AddEventListener("玩家血量脱离上限", (isoverhp) => { isOverHP = (bool)isoverhp; });
         EventCenter.Instance.AddEventListener("玩家死亡", (isdead) => { isDead = (bool)isdead; });
         EventCenter.Instance.AddEventListener("玩家存活", (isdead) => { isDead = (bool)isdead; });
+        EventCenter.Instance.AddEventListener("任务奖励", (none) => { ItemDic["HPPotion"].itemNum++; });
         updateItemToUI();
         UnityEngine.Cursor.lockState = CursorLockMode.None;
        

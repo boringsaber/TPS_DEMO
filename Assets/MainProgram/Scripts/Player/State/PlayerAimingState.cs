@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAimingState : PlayerStateBase
@@ -9,12 +10,13 @@ public class PlayerAimingState : PlayerStateBase
     private float aimingX = 0;
     private float aimingY = 0;
     private float transitionSpeed = 5;
-
+    private bool isHavingAmmo = true;
     public override void Init(IStateMachineOwner owner)
     {
         base.Init(owner);
         aimingXHash = Animator.StringToHash("AimingX");
         aimingYHash = Animator.StringToHash("AimingY");
+        EventCenter.Instance.AddEventListener("有无子弹", (ishavingAmmo) => { isHavingAmmo = (bool)ishavingAmmo; });
     }
     public override void Enter()
     {
@@ -28,6 +30,7 @@ public class PlayerAimingState : PlayerStateBase
         }
            
     }
+   
     public override void Update()
     {
         base.Update();
@@ -45,7 +48,7 @@ public class PlayerAimingState : PlayerStateBase
             #endregion
 
             #region 开火监听
-            if (playerController.isFire)
+            if (playerController.isFire&&isHavingAmmo)
             {
                 playerModel.weapon.Fire(playerController.AimTarget.position);
                 playerController.ShakeCamera();

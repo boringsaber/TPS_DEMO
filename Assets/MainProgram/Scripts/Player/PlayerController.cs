@@ -32,7 +32,9 @@ public class PlayerController : SingleMonoBase<PlayerController>
     public bool isFire;//开火输入
     [HideInInspector]
     public bool isBackPackOpen;//背包打开输入
-   
+    [HideInInspector]
+    public bool isReloading;//换弹输入
+
     [Tooltip("正常视角相机")]
     public CinemachineFreeLook freeLookCamera;
     [Tooltip("瞄准视角相机")]
@@ -78,12 +80,14 @@ public class PlayerController : SingleMonoBase<PlayerController>
         isJumping = input.Player.isJumping.IsPressed();
         isFire = input.Player.Fire.IsPressed();
         isBackPackOpen = input.Player.isBackPackOpen.IsInProgress();
+       
 
         Vector3 cameraForwardProjection = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
         worldMovement = cameraForwardProjection * moveInput.y + cameraTransform.right * moveInput.x;
         localMovement = currentPlayerModel.transform.InverseTransformVector(worldMovement);
         OpenOrCloseBackpack();
         OpenOrCloseMenu();
+        Reload();
     }
 
     private void OnEnable()
@@ -117,6 +121,7 @@ public class PlayerController : SingleMonoBase<PlayerController>
 
         freeLookCamera.Priority = 100;
         aimingCamera.Priority = 0;
+        
     }
 
    
@@ -169,4 +174,13 @@ public class PlayerController : SingleMonoBase<PlayerController>
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+    private void Reload()
+    {
+        if (Input.GetKeyDown(KeyCode.R) )
+        {
+            EventCenter.Instance.EventTrigger("换弹", null);
+            
+        }
+    }
+
 }

@@ -1,32 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
-public class SceManager : SingleMonoBase<SceManager>
+public class SceManager : MonoBehaviour
 {
+    
+    public static SceManager Instance;
 
-    public void LoadScene(string name,UnityAction fun)
+    void Awake()
+    {
+        
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+       
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void LoadScene(string name, UnityAction fun)
     {
         SceneManager.LoadScene(name);
-        fun();
+        fun?.Invoke();
     }
 
-    public void LoadSceneAsync(string name,UnityAction fun)
+    public void LoadSceneAsync(string name, UnityAction fun)
     {
-        StartCoroutine(RealLoadSceneAsync(name,fun));
+        StartCoroutine(RealLoadSceneAsync(name, fun));
     }
 
-    private IEnumerator RealLoadSceneAsync(string name,UnityAction fun)
+    private IEnumerator RealLoadSceneAsync(string name, UnityAction fun)
     {
+       
+        if (this == null) yield break;
 
-        AsyncOperation ao= SceneManager.LoadSceneAsync(name);
+        AsyncOperation ao = SceneManager.LoadSceneAsync(name);
+
         while (!ao.isDone)
         {
-            EventCenter.Instance.EventTrigger("Ω¯∂»Ãı∏¸–¬", ao.progress);
-            yield return ao.progress;
+          
+            if (EventCenter.Instance != null)
+            {
+                EventCenter.Instance.EventTrigger("ËøõÂ∫¶Êù°Êõ¥Êñ∞", ao.progress);
+            }
+
+            yield return null; // 
         }
-        fun();
+
+        
+        yield return null;
+
+        
+        fun?.Invoke();
     }
 }
+

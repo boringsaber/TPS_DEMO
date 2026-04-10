@@ -29,6 +29,8 @@ public class EnemyStateBase : StateBase
     }
     protected bool IsAnimationBreak(int layer)
     {
+        if (enemyModel.animator == null)
+            return true;
         AnimatorStateInfo info = enemyModel.animator.GetCurrentAnimatorStateInfo(layer);
         return info.normalizedTime >= 1.0f && !enemyModel.animator.IsInTransition(layer);
     }

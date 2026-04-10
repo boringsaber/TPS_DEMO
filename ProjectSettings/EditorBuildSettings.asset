@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MainProgram/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/MainProgram/Scenes/SaveSlot.unity
+    guid: 41bcae8988f2b70419cac3c905fe7ebb
   m_configObjects: {}

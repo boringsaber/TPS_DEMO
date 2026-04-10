@@ -14,16 +14,30 @@ public class PlayerWeapon : MonoBehaviour
     [Tooltip("子弹发射间隔")]
     public float bulletInterval = 0.15f;
     private float lastFireTime;//上一次子弹发射时间
-
+   
+   
     public void Fire(Vector3 targetPos)
     {
         
         if (Time.time - lastFireTime < bulletInterval)
             return;
+       
+
         lastFireTime = Time.time;
         Vector3 direction = targetPos - bulletSpawnPoint.position;
         direction.Normalize();
-        PlayerWeapnBullet bulletEffect = Instantiate(bulletEffectPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        //PlayerWeapnBullet bulletEffect = Instantiate(bulletEffectPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        GameObject go = BasePool.instance.getFromPool();
+        if (go == null) return;
+        go.transform.position = bulletSpawnPoint.position;
+        
+       
+        PlayerWeapnBullet bulletEffect = go.GetComponent<PlayerWeapnBullet>();
+       
         bulletEffect.transform.forward = direction;
+        bulletEffect.rb.velocity = Vector3.zero;
+        bulletEffect.rb.angularVelocity = Vector3.zero;
+        bulletEffect.rb.velocity = direction * bulletEffect.flypower;
+        EventCenter.Instance.EventTrigger("当前子弹数量更新",1);
     }
 }

@@ -11,25 +11,40 @@ public class PlayerWeapnBullet : MonoBehaviour
     [Tooltip("推力")]
     public float flypower=30f;
     [Tooltip("存活时间")]
-    public float lifetime = 10f;
-
+    public float lifetime = 1.0f;
+    private float currentTime = 0f;
     private Vector3 prevPosition;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
+    private void OnEnable()
+    {
+        currentTime = 0;
+    }
 
     private void Start()
     {
-        rb.velocity = transform.forward * flypower;//给子弹一个推力
-        Destroy(gameObject, lifetime);
 
+
+        //rb.velocity = transform.forward * flypower;//给子弹一个推力
         prevPosition = transform.position;
         CheckInitialOverlap();
+       
     }
+    
     private void Update()
     {
+        currentTime +=Time.deltaTime;
+       
+         if (currentTime >= lifetime)
+        {
+            currentTime = 0;
+            
+            BasePool.instance.ReturnPool(gameObject);
+            
+        }
         CheckCollison();
         prevPosition = transform.position; 
     }
@@ -44,6 +59,11 @@ public class PlayerWeapnBullet : MonoBehaviour
             {
                 EnemyBase enemy = hit.collider.GetComponent<EnemyBase>();
                 enemy.Hurt(this, 1);
+                BasePool.instance.ReturnPool(gameObject);
+            }
+            else
+            {
+                BasePool.instance.ReturnPool(gameObject);
             }
         }
     }
@@ -57,9 +77,12 @@ public class PlayerWeapnBullet : MonoBehaviour
             if (enemy != null)
             {
                 enemy.Hurt(this, 1);
-                Destroy(gameObject);
+                BasePool.instance.ReturnPool(gameObject);
+
                 return;
             }
         }
     }
+   
+
 }

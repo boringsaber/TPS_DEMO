@@ -35,7 +35,7 @@ public class EventCenter : SingleMonoBase<EventCenter>
     /// </summary>
     /// <param name="name"></param>
     /// <param name="action"></param>
-    public void RemoveEventLister(string name,UnityAction<object> action)
+    public void RemoveEventListener(string name,UnityAction<object> action)
     {
         if (callevent.ContainsKey(name))
             callevent[name] -= action;

@@ -17,6 +17,11 @@ public class ScenesItem : MonoBehaviour
         BagDisplayUI.ItemDic[item.name].itemNum++;
         BagDisplayUI.updateItemToUI();
         Destroy(this.gameObject);
+           
+        }
+        else
+        {
+            print("hello");
         }
        
     }
